@@ -61,8 +61,8 @@ Label(app, text="Target currency:").grid(row=2, column=0, padx=10, pady=5, stick
 # Entry widgets
 amount_entry = Entry(app)
 amount_entry.grid(row=0, column=1, padx=10, pady=5)
-OptionMenu(app, base_currency_var, "USD", "EUR", "GBP").grid(row=1, column=1, padx=10, pady=5)
-OptionMenu(app, target_currency_var, "USD", "EUR", "GBP").grid(row=2, column=1, padx=10, pady=5)
+OptionMenu(app, base_currency_var, "USD", "EUR", "GBP", "CNY", "CHF", "JOD").grid(row=1, column=1, padx=10, pady=5)
+OptionMenu(app, target_currency_var, "USD", "EUR", "GBP", "CNY", "CHF", "JOD").grid(row=2, column=1, padx=10, pady=5)
 
 # Button
 convert_button = Button(app, text="Convert", command=perform_conversion)

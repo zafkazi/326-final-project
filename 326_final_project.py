@@ -5,6 +5,11 @@ Zafir Kazi, David Zannou, Max Eliker, Andrew Bian
 """
 import requests
 from forex_python.converter import CurrencyRates
+import tkinter as tk
+from tkinter import OptionMenu, Label, Entry, Button, StringVar
+
+100
+api_key = 'YOUR_API_KEY'
 
 def get_exchange_rate(api_key, base_currency, target_currency):
     url = f"https://open.er-api.com/v6/latest/{base_currency}"
@@ -25,34 +30,47 @@ def convert_currency(amount, exchange_rate):
     else:
         return None
 
-def get_user_input():
-    amount = float(input("Enter the amount you want to convert: "))
-    from_currency = input("Enter the source currency (e.g., USD): ").upper()
-    to_currency = input("Enter the target currency (e.g., EUR): ").upper()
-    return amount, from_currency, to_currency
-
-def display_result(amount, from_currency, result, to_currency):
-    print(f"{amount} {from_currency} is equal to {result:.2f} {to_currency}")
-
-def currency_converter():
-    api_key = 'YOUR_API_KEY'
-    base_currency = 'USD'
-    target_currency = 'EUR'
+def perform_conversion():
+    base_currency = base_currency_var.get()
+    target_currency = target_currency_var.get()
 
     exchange_rate = get_exchange_rate(api_key, base_currency, target_currency)
 
     if exchange_rate is not None:
-        amount_to_convert, from_currency, to_currency = get_user_input()
-
+        amount_to_convert = float(amount_entry.get())
         result = convert_currency(amount_to_convert, exchange_rate)
-
-        display_result(amount_to_convert, from_currency, result, to_currency)
+        result_label.config(text=f"{amount_to_convert} {base_currency} is equal to {result:.2f} {target_currency}")
     else:
-        print("Currency conversion failed.")
+        result_label.config(text="Currency conversion failed.")
 
-def main():
-    print("Welcome to the Currency Converter")
-    currency_converter()
+# Tkinter GUI setup
+app = tk.Tk()
+app.title("Currency Converter")
 
-if __name__ == "__main__":
-    main()
+# Variables for storing user input
+base_currency_var = StringVar(app)
+base_currency_var.set("USD")
+target_currency_var = StringVar(app)
+target_currency_var.set("EUR")
+
+# Labels
+Label(app, text="Amount to convert:").grid(row=0, column=0, padx=10, pady=5, sticky=tk.W)
+Label(app, text="Source currency:").grid(row=1, column=0, padx=10, pady=5, sticky=tk.W)
+Label(app, text="Target currency:").grid(row=2, column=0, padx=10, pady=5, sticky=tk.W)
+
+# Entry widgets
+amount_entry = Entry(app)
+amount_entry.grid(row=0, column=1, padx=10, pady=5)
+OptionMenu(app, base_currency_var, "USD", "EUR", "GBP").grid(row=1, column=1, padx=10, pady=5)
+OptionMenu(app, target_currency_var, "USD", "EUR", "GBP").grid(row=2, column=1, padx=10, pady=5)
+
+# Button
+convert_button = Button(app, text="Convert", command=perform_conversion)
+convert_button.grid(row=3, column=0, columnspan=2, pady=10)
+
+# Result label
+result_label = Label(app, text="", font=("Helvetica", 12))
+result_label.grid(row=4, column=0, columnspan=2, pady=5)
+
+# Run the Tkinter main loop
+app.mainloop()

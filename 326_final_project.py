@@ -7,8 +7,11 @@ import requests
 from forex_python.converter import CurrencyRates
 import tkinter as tk
 from tkinter import OptionMenu, Label, Entry, Button, StringVar
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime
 
-100
 api_key = 'YOUR_API_KEY'
 
 def get_exchange_rate(api_key, base_currency, target_currency):
@@ -30,7 +33,23 @@ def convert_currency(amount, exchange_rate):
     else:
         return None
 
-def perform_conversion():
+def get_historical_exchange_rates(api_key, base_currency, target_currency, start_date, end_date):
+    url = f"https://open.er-api.com/v6/time-series/{start_date}/{end_date}"
+    params = {"apikey": api_key, "base": base_currency, "symbols": target_currency}
+
+    response = requests.get(url, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        rates = data['rates'][target_currency]
+        dates = [datetime.strptime(date, "%Y-%m-%d") for date in rates.keys()]
+        values = list(rates.values())
+        return pd.DataFrame({"Date": dates, "Exchange Rate": values})
+    else:
+        print(f"Error: Unable to fetch historical exchange rates. Status code: {response.status_code}")
+        return None
+
+def convert_and_plot():
     base_currency = base_currency_var.get()
     target_currency = target_currency_var.get()
 
@@ -40,14 +59,44 @@ def perform_conversion():
         amount_to_convert = float(amount_entry.get())
         result = convert_currency(amount_to_convert, exchange_rate)
         result_label.config(text=f"{amount_to_convert} {base_currency} is equal to {result:.2f} {target_currency}")
+
+        # Plot exchange rate over time
+        plot_exchange_rate_over_time(api_key, base_currency, target_currency, "2022-01-01", "2023-01-01")
     else:
         result_label.config(text="Currency conversion failed.")
 
+def plot_exchange_rate_over_time(api_key, base_currency, target_currency, start_date, end_date):
+    currencies = ["USD", "EUR", "JPY", "GBP", "AUD"]
+
+    plt.figure(figsize=(12, 8))
+
+    for currency in currencies:
+        historical_data = get_historical_exchange_rates(api_key, currency, target_currency, start_date, end_date)
+
+        if historical_data is not None:
+            sns.lineplot(x='Date', y='Exchange Rate', data=historical_data, label=f"{currency}/{target_currency}")
+
+    plt.title(f"Exchange Rate Over Time")
+    plt.xlabel("Date")
+    plt.ylabel("Exchange Rate")
+    plt.legend()
+    plt.xticks(rotation=45)
+    plt.show()
+
+#function rating best world currencies
+
+#function rating worst world currencies
+
+#creates table of US inflation rates
+
 # Tkinter GUI setup
 app = tk.Tk()
-app.title("Currency Converter")
+app.title("Currency Converter and Exchange Rate Plotter")
 
-# Variables for storing user input
+# Variables for storing user input (make them global)
+global base_currency_var
+global target_currency_var
+
 base_currency_var = StringVar(app)
 base_currency_var.set("USD")
 target_currency_var = StringVar(app)
@@ -61,16 +110,24 @@ Label(app, text="Target currency:").grid(row=2, column=0, padx=10, pady=5, stick
 # Entry widgets
 amount_entry = Entry(app)
 amount_entry.grid(row=0, column=1, padx=10, pady=5)
-OptionMenu(app, base_currency_var, "USD", "EUR", "GBP", "CNY", "CHF", "JOD").grid(row=1, column=1, padx=10, pady=5)
-OptionMenu(app, target_currency_var, "USD", "EUR", "GBP", "CNY", "CHF", "JOD").grid(row=2, column=1, padx=10, pady=5)
+OptionMenu(app, base_currency_var, "USD", "EUR", "JPY", "GBP", "AUD").grid(row=1, column=1, padx=10, pady=5)
+OptionMenu(app, target_currency_var, "USD", "EUR", "JPY", "GBP", "AUD").grid(row=2, column=1, padx=10, pady=5)
 
-# Button
-convert_button = Button(app, text="Convert", command=perform_conversion)
+# Button to convert
+convert_button = Button(app, text="Convert", command=convert_and_plot)
 convert_button.grid(row=3, column=0, columnspan=2, pady=10)
 
 # Result label
 result_label = Label(app, text="", font=("Helvetica", 12))
 result_label.grid(row=4, column=0, columnspan=2, pady=5)
+
+# Button to plot exchange rate over time
+plot_button = Button(app, text="Plot Exchange Rate Over Time", command=lambda: plot_exchange_rate_over_time(api_key, base_currency_var.get(), target_currency_var.get(), "2022-01-01", "2023-01-01"))
+plot_button.grid(row=5, column=0, columnspan=2, pady=10)
+
+# Button to convert and plot
+convert_and_plot_button = Button(app, text="Convert and Plot", command=convert_and_plot)
+convert_and_plot_button.grid(row=6, column=0, columnspan=2, pady=10)
 
 # Run the Tkinter main loop
 app.mainloop()

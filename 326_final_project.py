@@ -87,7 +87,7 @@ def plot_exchange_rate_over_time(api_key, base_currency, target_currency, start_
 
 #function rating worst world currencies
 
-#creates table of US inflation rates
+#create link for INST professor but goes to Rick Roll
 
 # Tkinter GUI setup
 app = tk.Tk()

@@ -83,11 +83,40 @@ def plot_exchange_rate_over_time(api_key, base_currency, target_currency, start_
     plt.xticks(rotation=45)
     plt.show()
 
-#function rating best world currencies
+def rating_best_currencies(api_key):
+    currencies = ["USD", "EUR", "JPY", "GBP", "AUD"]
+    ratings = {}
 
-#function rating worst world currencies
+    for currency in currencies:
+        exchange_rate = get_exchange_rate(api_key, currency, "USD")
+        if exchange_rate is not None:
+            ratings[currency] = exchange_rate
 
-#creates table of US inflation rates
+    best_currencies = sorted(ratings, key=ratings.get, reverse=True)
+    return best_currencies
+
+def rating_worst_currencies(api_key):
+    currencies = ["USD", "EUR", "JPY", "GBP", "AUD"]
+    ratings = {}
+
+    for currency in currencies:
+        exchange_rate = get_exchange_rate(api_key, currency, "USD")
+        if exchange_rate is not None:
+            ratings[currency] = exchange_rate
+
+    worst_currencies = sorted(ratings, key=ratings.get)
+    return worst_currencies
+
+def create_inflation_table():
+    # You can replace this with your own logic or use a library to fetch and display inflation data.
+    # Here, I am just creating a simple example table with static data for demonstration purposes.
+    data = {
+        'Year': [2020, 2021, 2022],
+        'Inflation Rate (%)': [1.2, 2.5, 3.0]
+    }
+
+    inflation_table = pd.DataFrame(data)
+    return inflation_table
 
 # Tkinter GUI setup
 app = tk.Tk()
@@ -128,6 +157,25 @@ plot_button.grid(row=5, column=0, columnspan=2, pady=10)
 # Button to convert and plot
 convert_and_plot_button = Button(app, text="Convert and Plot", command=convert_and_plot)
 convert_and_plot_button.grid(row=6, column=0, columnspan=2, pady=10)
+
+# Button to rate best currencies
+best_currencies_button = Button(app, text="Rate Best Currencies", command=lambda: show_result(rating_best_currencies(api_key)))
+best_currencies_button.grid(row=7, column=0, columnspan=2, pady=10)
+
+# Button to rate worst currencies
+worst_currencies_button = Button(app, text="Rate Worst Currencies", command=lambda: show_result(rating_worst_currencies(api_key)))
+worst_currencies_button.grid(row=8, column=0, columnspan=2, pady=10)
+
+# Button to create inflation table
+inflation_table_button = Button(app, text="Create Inflation Table", command=lambda: show_result(create_inflation_table()))
+inflation_table_button.grid(row=9, column=0, columnspan=2, pady=10)
+
+# Function to show the result in a messagebox or any other desired way
+def show_result(result):
+    if result is not None:
+        result_label.config(text=str(result))
+    else:
+        result_label.config(text="Operation failed.")
 
 # Run the Tkinter main loop
 app.mainloop()

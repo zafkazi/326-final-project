@@ -107,16 +107,18 @@ def rating_worst_currencies(api_key):
     worst_currencies = sorted(ratings, key=ratings.get)
     return worst_currencies
 
-def create_inflation_table():
-    # You can replace this with your own logic or use a library to fetch and display inflation data.
-    # Here, I am just creating a simple example table with static data for demonstration purposes.
-    data = {
-        'Year': [2020, 2021, 2022],
-        'Inflation Rate (%)': [1.2, 2.5, 3.0]
-    }
+def plot_inflation_rate(inflation, years):
+    sns.lineplot(x=years, y=inflation)
+    plt.xlabel('Years')
+    plt.ylabel('Inflation Rate (%)')
+    plt.title('Inflation Rate Over Time')
+    plt.savefig('inflation_plot.png')  # Save the plot as an image file
+    plt.show()
 
-    inflation_table = pd.DataFrame(data)
-    return inflation_table
+
+inflation = [3.73, 2.62, 2.35, 1.43, 1.55, 2.19, 2.4, 2.21, 1.93, 3.48, 8.27]
+years = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]
+plot_inflation_rate(inflation, years)
 
 # Tkinter GUI setup
 app = tk.Tk()

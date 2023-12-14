@@ -107,8 +107,9 @@ def rating_worst_currencies(api_key):
     worst_currencies = sorted(ratings, key=ratings.get)
     return worst_currencies
 
-def plot_inflation_rate(inflation, years):
-    sns.lineplot(x=years, y=inflation)
+def create_inflation_table(inflation, years):
+    data = pd.DataFrame({'Years': years, 'Inflation Rate (5%) ': inflation})
+    sns.lineplot(data=data, x=years, y=inflation)
     plt.xlabel('Years')
     plt.ylabel('Inflation Rate (%)')
     plt.title('Inflation Rate Over Time')
@@ -118,7 +119,7 @@ def plot_inflation_rate(inflation, years):
 
 inflation = [3.73, 2.62, 2.35, 1.43, 1.55, 2.19, 2.4, 2.21, 1.93, 3.48, 8.27]
 years = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]
-plot_inflation_rate(inflation, years)
+create_inflation_table(inflation, years)
 
 # Tkinter GUI setup
 app = tk.Tk()

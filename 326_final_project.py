@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime
 
-api_key = 'YOUR_API_KEY'
+api_key = '  API_KEY'
 
 def get_exchange_rate(api_key, base_currency, target_currency):
     url = f"https://open.er-api.com/v6/latest/{base_currency}"

@@ -127,6 +127,13 @@ def rating_worst_currencies(api_key):
     return worst_currencies
 
 def create_inflation_table(inflation, years):
+    """
+    Create a line plot that displays the inflation rate for several years
+
+    Parameters:
+    inflation: list of rates that correspond to a certain  year
+    years: list of years that correspond to certain inflation rate
+    """
     data = pd.DataFrame({'Years': years, 'Inflation Rate (5%) ': inflation})
     sns.lineplot(data=data, x=years, y=inflation)
     plt.xlabel('Years')

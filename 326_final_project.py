@@ -103,6 +103,15 @@ def plot_exchange_rate_over_time(api_key, base_currency, target_currency, start_
     plt.show()
 
 def rating_best_currencies(api_key):
+    """
+    Grab the best/strongest currencies based on its current exchange rate
+
+    Parameters:
+    api_key: necessary to access the exchange rate amount to determine the best one
+    
+    Returns:
+    best_currencies: list of the best currencies based on rates compared to USD
+    """
     currencies = ["USD", "EUR", "JPY", "GBP", "AUD"]
     ratings = {}
 
@@ -115,6 +124,15 @@ def rating_best_currencies(api_key):
     return best_currencies
 
 def rating_worst_currencies(api_key):
+    """
+    Grab the worst/weakest currencies based on its current exchange rate
+
+    Parameters:
+    api_key: necessary to access the exchange rate amount to determine the worst one
+    
+    Returns:
+    worst_currencies: list of the worst currencies based on rates compared to USD
+    """
     currencies = ["USD", "EUR", "JPY", "GBP", "AUD"]
     ratings = {}
 

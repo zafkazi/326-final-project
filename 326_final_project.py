@@ -53,6 +53,9 @@ def convert_currency(amount, exchange_rate):
         return None
 
 def get_historical_exchange_rates(api_key, base_currency, target_currency, start_date, end_date):
+    """
+    
+    """
     url = f"https://open.er-api.com/v6/time-series/{start_date}/{end_date}"
     params = {"apikey": api_key, "base": base_currency, "symbols": target_currency}
 
@@ -69,6 +72,9 @@ def get_historical_exchange_rates(api_key, base_currency, target_currency, start
         return None
 
 def convert_and_plot():
+    """
+    
+    """
     base_currency = base_currency_var.get()
     target_currency = target_currency_var.get()
 
@@ -85,6 +91,9 @@ def convert_and_plot():
         result_label.config(text="Currency conversion failed.")
 
 def plot_exchange_rate_over_time(api_key, base_currency, target_currency, start_date, end_date):
+    """
+    
+    """
     currencies = ["USD", "EUR", "JPY", "GBP", "AUD"]
 
     plt.figure(figsize=(12, 8))

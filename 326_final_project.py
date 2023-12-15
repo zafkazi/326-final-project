@@ -83,7 +83,12 @@ def get_historical_exchange_rates(api_key, base_currency, target_currency, start
 
 def convert_and_plot():
     """
-    
+    Runs the conversion and plots points over time
+
+    Parameters:
+    GUI elements
+
+    Returns: None
     """
     base_currency = base_currency_var.get()
     target_currency = target_currency_var.get()
@@ -102,7 +107,16 @@ def convert_and_plot():
 
 def plot_exchange_rate_over_time(api_key, base_currency, target_currency, start_date, end_date):
     """
-    
+    Plots points for multiple currencies against one currency
+
+    Parameters:
+    api_key: key to access the exchange rate api
+    base_currency: currency which is used to make conversion
+    target_currency: currency which it is made into after conversion
+    start_date: date of when the exchange rate started
+    end_date: date of when the exchange rate ended
+
+    Returns: None
     """
     currencies = ["USD", "EUR", "JPY", "GBP", "AUD"]
 

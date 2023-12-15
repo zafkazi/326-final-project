@@ -166,6 +166,11 @@ years = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]
 create_inflation_table(inflation, years)
 
 # Tkinter GUI setup
+"""
+Set up a Tkinter currency converter and exchange rate calculator
+Conversion tool and plotting of graphs
+
+"""
 app = tk.Tk()
 app.title("Currency Converter and Exchange Rate Plotter")
 

@@ -38,6 +38,15 @@ def get_exchange_rate(api_key, base_currency, target_currency):
         return None
 
 def convert_currency(amount, exchange_rate):
+    """
+    Converts the amount of money from one currency to the other based on user input
+    
+    Parameters:
+    amount: amount of money that's being converted
+    exchange_rate: the exchange rate for said conversion
+
+    Returns: converted amount of money
+    """
     if exchange_rate is not None:
         return amount * exchange_rate
     else:

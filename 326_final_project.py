@@ -15,6 +15,16 @@ from datetime import datetime
 api_key = '  API_KEY'
 
 def get_exchange_rate(api_key, base_currency, target_currency):
+    """
+    Gets exchange rate using an API
+
+    Parameters:
+    api_key: accesses the exchange rate
+    base_currency: the currency from which one the rate is calculated
+    target_currency: the currency to which one the rate is calculated
+
+    Returns: the exchange rate from base_currency to target_currency, otherwise returns None
+    """
     url = f"https://open.er-api.com/v6/latest/{base_currency}"
     params = {"apikey": api_key}
 

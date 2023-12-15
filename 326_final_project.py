@@ -54,7 +54,17 @@ def convert_currency(amount, exchange_rate):
 
 def get_historical_exchange_rates(api_key, base_currency, target_currency, start_date, end_date):
     """
-    
+    Grabs historical data for exhange reates from 2 currencies
+
+    Parameters:
+    api_key: key to access the exchange rate api
+    base_currency: currency which is used to make conversion
+    target_currency: currency which it is made into after conversion
+    start_date: date of when the exchange rate started
+    end_date: date of when the exchange rate ended
+
+    Returns:
+    DataFrame: with the expected columns and dates, otherwise returns None
     """
     url = f"https://open.er-api.com/v6/time-series/{start_date}/{end_date}"
     params = {"apikey": api_key, "base": base_currency, "symbols": target_currency}

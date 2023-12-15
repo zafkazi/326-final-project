@@ -170,6 +170,12 @@ create_inflation_table(inflation, years)
 Set up a Tkinter currency converter and exchange rate calculator
 Conversion tool and plotting of graphs
 
+GUI displays:
+-Input fields for conversion amount, base currency, and target currency
+-Buttons:
+    -inflation rate table
+    -rating best and worst currencies
+    -conversion of currencies and plotting against rate of exchange
 """
 app = tk.Tk()
 app.title("Currency Converter and Exchange Rate Plotter")
